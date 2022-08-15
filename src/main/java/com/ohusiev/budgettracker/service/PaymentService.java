@@ -1,4 +1,4 @@
-package com.ohusiev.budgettracker.persistence.service;
+package com.ohusiev.budgettracker.service;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.ohusiev.budgettracker.persistence.web;
+package com.ohusiev.budgettracker.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ohusiev.budgettracker.persistence.model.Payment;
-import com.ohusiev.budgettracker.persistence.service.PaymentService;
+import com.ohusiev.budgettracker.service.PaymentService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
