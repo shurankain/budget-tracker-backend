@@ -36,7 +36,7 @@ public class PaymentRestController {
 
     @PostMapping("/payment/add")
     public Mono<Payment> add(@RequestBody Payment payment) {
-        return paymentService.save(payment);
+        return this.paymentService.save(payment);
     }
 
     @DeleteMapping("/payments/{id}")
