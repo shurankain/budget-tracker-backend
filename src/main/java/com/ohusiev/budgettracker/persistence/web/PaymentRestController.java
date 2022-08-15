@@ -16,7 +16,13 @@ import reactor.core.publisher.Mono;
 
 @Controller
 @ResponseBody
-record PaymentRestController(PaymentService paymentService) {
+public class PaymentRestController {
+
+    private final PaymentService paymentService;
+
+    public PaymentRestController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @GetMapping("/payments")
     Flux<Payment> get() {
