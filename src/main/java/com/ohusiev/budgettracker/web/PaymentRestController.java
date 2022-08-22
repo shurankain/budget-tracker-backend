@@ -45,6 +45,11 @@ public class PaymentRestController {
         return this.paymentService.deleteById(id);
     }
 
+    @GetMapping("/payments/unassigned")
+    Flux<Payment> getUnassignedPayments() {
+        return this.paymentService.getUnassignedPayments();
+    }
+
     @GetMapping("/categories/data")
     Flux<CategoryDTO> getDataPerCategory() {
         return this.paymentService.getAllCategoriesData();

@@ -34,6 +34,10 @@ public class PaymentService {
         return this.paymentRepository.deleteById(id);
     }
 
+    public Flux<Payment> getUnassignedPayments() {
+        return this.paymentRepository.getAllByCategoryIsNull();
+    }
+
     public Flux<CategoryDTO>  getAllCategoriesData() {
         return  this.paymentRepository.countTotalAmountByCategory();
     }

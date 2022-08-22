@@ -10,6 +10,8 @@ import reactor.core.publisher.Flux;
 
 public interface PaymentRepository extends ReactiveCrudRepository<Payment, String> {
 
+    Flux<Payment> getAllByCategoryIsNull();
+
     @Aggregation(pipeline = {"""
             {
                 $group: {
