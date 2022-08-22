@@ -45,8 +45,8 @@ public class PaymentRestController {
         return this.paymentService.deleteById(id);
     }
 
-    @GetMapping("/categories")
-    Flux<CategoryDTO> getCategories() {
-        return this.paymentService.getAllCategories();
+    @GetMapping("/categories/data")
+    Flux<CategoryDTO> getDataPerCategory() {
+        return this.paymentService.getAllCategoriesData();
     }
 }

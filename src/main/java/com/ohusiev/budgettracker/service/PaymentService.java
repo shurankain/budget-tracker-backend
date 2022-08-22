@@ -34,7 +34,7 @@ public class PaymentService {
         return this.paymentRepository.deleteById(id);
     }
 
-    public Flux<CategoryDTO>  getAllCategories() {
+    public Flux<CategoryDTO>  getAllCategoriesData() {
         return  this.paymentRepository.countTotalAmountByCategory();
     }
 }
