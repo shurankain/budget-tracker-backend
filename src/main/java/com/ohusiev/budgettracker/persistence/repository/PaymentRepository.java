@@ -17,7 +17,7 @@ public interface PaymentRepository extends ReactiveCrudRepository<Payment, Strin
                 $group: {
                     _id: "$category",
                     name: {"$first": "$category"},
-                    totalBalance: {$sum: {$add: ["$amount"]}},
+                    totalBalance: {$sum: {$add: { $toDecimal: ["$amount"]}}},
                 }
             }
              """, """
