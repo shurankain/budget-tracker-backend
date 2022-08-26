@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.persistence.repository.PaymentRepository;
 import com.ohusiev.budgettracker.web.dto.CategoryDTO;
+import com.ohusiev.budgettracker.web.dto.PaymentDTO;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,8 +27,8 @@ public class PaymentService {
         return this.paymentRepository.findById(id);
     }
 
-    public Mono<Payment> save(Payment payment) {
-        return this.paymentRepository.save(payment);
+    public Mono<Payment> save(PaymentDTO paymentDTO) {
+        return this.paymentRepository.save(convertToPayment(paymentDTO));
     }
 
     public Mono<Void> deleteById(String id) {
@@ -38,7 +39,15 @@ public class PaymentService {
         return this.paymentRepository.getAllByCategoryIsNull();
     }
 
-    public Flux<CategoryDTO>  getAllCategoriesData() {
-        return  this.paymentRepository.countTotalAmountByCategory();
+    public Flux<CategoryDTO> getAllCategoriesData() {
+        return this.paymentRepository.countTotalAmountByCategory();
+    }
+
+    private Payment convertToPayment(PaymentDTO paymentDTO) {
+        return new Payment(null,
+                paymentDTO.amount(),
+                paymentDTO.description(),
+                paymentDTO.creationDate(),
+                paymentDTO.category());
     }
 }

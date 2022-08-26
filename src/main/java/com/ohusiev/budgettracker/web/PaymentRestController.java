@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.service.PaymentService;
 import com.ohusiev.budgettracker.web.dto.CategoryDTO;
+import com.ohusiev.budgettracker.web.dto.PaymentDTO;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -36,7 +37,7 @@ public class PaymentRestController {
     }
 
     @PostMapping("/payment/add")
-    public Mono<Payment> add(@RequestBody Payment payment) {
+    public Mono<Payment> add(@RequestBody PaymentDTO payment) {
         return this.paymentService.save(payment);
     }
 

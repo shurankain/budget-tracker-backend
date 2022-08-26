@@ -1,3 +1,4 @@
 package com.ohusiev.budgettracker.web.dto;
 
-public record CategoryDTO(String name, Double totalBalance) {}
+public record CategoryDTO(String name, Double totalBalance) {
+}
