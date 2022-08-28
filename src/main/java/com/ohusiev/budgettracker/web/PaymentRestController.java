@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ohusiev.budgettracker.persistence.model.Payment;
@@ -49,6 +50,11 @@ public class PaymentRestController {
     @GetMapping("/payments/unassigned")
     Flux<Payment> getUnassignedPayments() {
         return this.paymentService.getUnassignedPayments();
+    }
+
+    @GetMapping("/category/payments")
+    Flux<Payment> getAllByCategoryName(@RequestParam("category") String category) {
+        return this.paymentService.getAllByCategoryName(category);
     }
 
     @GetMapping("/categories/data")

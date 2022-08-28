@@ -12,6 +12,8 @@ public interface PaymentRepository extends ReactiveCrudRepository<Payment, Strin
 
     Flux<Payment> getAllByCategoryIsNull();
 
+    Flux<Payment> getAllByCategory(String category);
+
     @Aggregation(pipeline = {"""
             {
                 $group: {

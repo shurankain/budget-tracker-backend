@@ -39,6 +39,10 @@ public class PaymentService {
         return this.paymentRepository.getAllByCategoryIsNull();
     }
 
+    public Flux<Payment> getAllByCategoryName(String category) {
+        return this.paymentRepository.getAllByCategory(category);
+    }
+
     public Flux<CategoryDTO> getAllCategoriesData() {
         return this.paymentRepository.countTotalAmountByCategory();
     }
