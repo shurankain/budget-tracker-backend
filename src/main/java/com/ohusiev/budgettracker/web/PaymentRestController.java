@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.service.PaymentService;
 import com.ohusiev.budgettracker.web.dto.CategoryDTO;
+import com.ohusiev.budgettracker.web.dto.DateLimiterDTO;
 import com.ohusiev.budgettracker.web.dto.PaymentDTO;
 
 import reactor.core.publisher.Flux;
@@ -60,5 +61,11 @@ public class PaymentRestController {
     @GetMapping("/categories/data")
     Flux<CategoryDTO> getDataPerCategory() {
         return this.paymentService.getAllCategoriesData();
+    }
+
+    @GetMapping("/categories/data/between")
+    Flux<CategoryDTO> getDataPerCategoryLimitedByDates(@RequestBody DateLimiterDTO dateLimiterDTO) {
+        return this.paymentService.getTotalAmountByCategoryForPeriod(dateLimiterDTO.startDate(),
+                dateLimiterDTO.endDate());
     }
 }

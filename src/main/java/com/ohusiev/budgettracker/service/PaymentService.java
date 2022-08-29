@@ -1,5 +1,7 @@
 package com.ohusiev.budgettracker.service;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 
 import com.ohusiev.budgettracker.persistence.model.Payment;
@@ -45,6 +47,10 @@ public class PaymentService {
 
     public Flux<CategoryDTO> getAllCategoriesData() {
         return this.paymentRepository.countTotalAmountByCategory();
+    }
+
+    public Flux<CategoryDTO> getTotalAmountByCategoryForPeriod(LocalDate startDate, LocalDate endDate) {
+        return this.paymentRepository.getTotalAmountByCategoryForPeriod(startDate, endDate);
     }
 
     private Payment convertToPayment(PaymentDTO paymentDTO) {
