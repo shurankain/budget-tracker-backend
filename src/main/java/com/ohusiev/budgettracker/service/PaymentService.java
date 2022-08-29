@@ -45,6 +45,10 @@ public class PaymentService {
         return this.paymentRepository.getAllByCategory(category);
     }
 
+    public Flux<Payment> getByCategoryNameAndLimitedByDates(String category, LocalDate startDate, LocalDate endDate) {
+        return this.paymentRepository.getByCategoryNameAndLimitedByDates(category, startDate, endDate);
+    }
+
     public Flux<CategoryDTO> getAllCategoriesData() {
         return this.paymentRepository.countTotalAmountByCategory();
     }

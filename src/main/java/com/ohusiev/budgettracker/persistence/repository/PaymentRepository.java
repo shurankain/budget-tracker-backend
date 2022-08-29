@@ -18,6 +18,17 @@ public interface PaymentRepository extends ReactiveCrudRepository<Payment, Strin
 
     @Aggregation(pipeline = {"""
             {
+                $match: {
+                    category: {$eq:  ?0},
+                    creationDate: {$gte: ?1, $lt: ?2}
+                }
+            }
+            """
+    })
+    Flux<Payment> getByCategoryNameAndLimitedByDates(String category, LocalDate startDate, LocalDate endDate);
+
+    @Aggregation(pipeline = {"""
+            {
                 $group: {
                     _id: "$category",
                     name: {"$first": "$category"},

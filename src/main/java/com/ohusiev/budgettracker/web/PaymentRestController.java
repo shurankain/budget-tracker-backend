@@ -58,12 +58,18 @@ public class PaymentRestController {
         return this.paymentService.getAllByCategoryName(category);
     }
 
+    @PostMapping("/categories/payments/between")
+    Flux<Payment> getByCategoryNameAndLimitedByDates(@RequestBody DateLimiterDTO dateLimiterDTO) {
+        return this.paymentService.getByCategoryNameAndLimitedByDates(dateLimiterDTO.categoryName(),
+                dateLimiterDTO.startDate(), dateLimiterDTO.endDate());
+    }
+
     @GetMapping("/categories/data")
     Flux<CategoryDTO> getDataPerCategory() {
         return this.paymentService.getAllCategoriesData();
     }
 
-    @GetMapping("/categories/data/between")
+    @PostMapping("/categories/data/between")
     Flux<CategoryDTO> getDataPerCategoryLimitedByDates(@RequestBody DateLimiterDTO dateLimiterDTO) {
         return this.paymentService.getTotalAmountByCategoryForPeriod(dateLimiterDTO.startDate(),
                 dateLimiterDTO.endDate());
