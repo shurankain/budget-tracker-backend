@@ -57,7 +57,7 @@ tasks.register('createContainer', DockerCreateContainer) {
     dependsOn buildImage, removeContainer
     targetImageId buildImage.getImageId()
     containerName = "$ourContainerName"
-    hostConfig.portBindings = ['8080:8080']
+    hostConfig.portBindings = ['8080:8080', '27017:27017']
 }
 
 tasks.register('stopContainer', DockerStopContainer) {
