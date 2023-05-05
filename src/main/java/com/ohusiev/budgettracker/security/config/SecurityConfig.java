@@ -1,5 +1,7 @@
 package com.ohusiev.budgettracker.security.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -15,6 +17,8 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @EnableWebFluxSecurity
 public class SecurityConfig implements WebFluxConfigurer {
 
+    public static final String[] MATCHERS = {"/payments"};
+
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.withDefaultPasswordEncoder()
@@ -25,6 +29,7 @@ public class SecurityConfig implements WebFluxConfigurer {
         return new MapReactiveUserDetailsService(user);
     }
 
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*")
@@ -32,7 +37,13 @@ public class SecurityConfig implements WebFluxConfigurer {
     }
 
     @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        return http.csrf().disable().build();
+    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+        http
+                .authorizeExchange(exchanges -> exchanges
+                                .anyExchange().authenticated()
+                                  )
+                .httpBasic(withDefaults())
+                .formLogin(withDefaults());
+        return http.build();
     }
 }
