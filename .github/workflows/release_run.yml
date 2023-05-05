@@ -31,5 +31,5 @@ jobs:
       run: |
         docker rm -f bta_backend
         docker rmi -f skain/budget-tracker-app
-        docker build -t skain/budget-tracker-app
+        docker build -t skain/budget-tracker-app .
         docker run -d --name bta_backend skain/budget-tracker-app
