@@ -58,6 +58,7 @@ tasks.register('createContainer', DockerCreateContainer) {
     targetImageId buildImage.getImageId()
     containerName = "$ourContainerName"
     hostConfig.portBindings = ['8080:8080', '27017:27017']
+    hostConfig.extraHosts=['mongoservice:172.17.0.1']
 }
 
 tasks.register('stopContainer', DockerStopContainer) {
