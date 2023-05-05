@@ -2,11 +2,17 @@ plugins {
     id 'org.springframework.boot' version '3.0.0-SNAPSHOT'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
+    id 'com.bmuschko.docker-spring-boot-application' version '9.3.1'
 }
+
+import com.bmuschko.gradle.docker.tasks.image.*
+import com.bmuschko.gradle.docker.tasks.container.*
 
 group = 'com.ohusiev'
 version = '0.0.1-RELEASE'
 sourceCompatibility = '17'
+
+def ourContainerName = "bta"
 
 configurations {
     compileOnly {
@@ -28,6 +34,52 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+tasks.register('createDockerFile', Dockerfile) {
+    from 'openjdk:17-alpine'
+    copyFile 'budget-tracker-backend-' + version + '.jar', '/app/test_service.jar'
+    entryPoint 'java'
+    defaultCommand '-jar', '/app/test_service.jar'
+    exposePort 8080
+}
+
+tasks.register('syncJar', Copy) {
+    dependsOn assemble
+    from jar.destinationDirectory
+    into "$buildDir/docker"
+}
+
+tasks.register('buildImage', DockerBuildImage) {
+    dependsOn createDockerFile, syncJar, removeContainer
+    images = ["skain/budget-tracker-app"]
+}
+
+tasks.register('createContainer', DockerCreateContainer) {
+    dependsOn buildImage, removeContainer
+    targetImageId buildImage.getImageId()
+    containerName = "$ourContainerName"
+    hostConfig.portBindings = ['8080:8080']
+}
+
+tasks.register('stopContainer', DockerStopContainer) {
+    targetContainerId("$ourContainerName")
+    onError { exception -> handleError(exception) }
+}
+
+tasks.register('removeContainer', DockerRemoveContainer) {
+    dependsOn stopContainer
+    targetContainerId("$ourContainerName")
+    onError { exception -> handleError(exception) }
+}
+
+tasks.register('startContainer', DockerStartContainer) {
+    dependsOn createContainer
+    targetContainerId("$ourContainerName")
+}
+
+private static void handleError(Throwable exc) {
+    if (exc.message != null &&
+            !exc.message.contains('NotModifiedException') &&
+            !exc.message.contains('No such container')) {
+        throw new RuntimeException(exc)
+    }
 }
