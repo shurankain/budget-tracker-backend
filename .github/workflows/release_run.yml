@@ -22,6 +22,8 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    - name: chmod
+      run: chmod +x ./gradlew
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
