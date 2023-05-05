@@ -27,8 +27,9 @@ jobs:
       with:
         arguments: clean bootJar
         gradle-executable: /opt/gradle/gradle-8.1.1/bin/gradle
-        script: |
-          docker rm -f bta_backend
-          docker rmi -f skain/budget-tracker-app
-          docker build -t skain/budget-tracker-app
-          docker run -d --name bta_backend skain/budget-tracker-app
+    - name: Update Docker image & container
+      run: |
+        docker rm -f bta_backend
+        docker rmi -f skain/budget-tracker-app
+        docker build -t skain/budget-tracker-app
+        docker run -d --name bta_backend skain/budget-tracker-app
