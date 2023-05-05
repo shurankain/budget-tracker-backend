@@ -28,4 +28,4 @@ jobs:
     - name: Set permissions
       run: chmod +x ./gradlew
     - name: Run build with Gradle Wrapper
-      run: ./gradlew build
+      run: ./gradlew clean startContainer
