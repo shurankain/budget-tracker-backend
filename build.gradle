@@ -55,7 +55,7 @@ tasks.register('buildImage', DockerBuildImage) {
 }
 
 tasks.register('createContainer', DockerCreateContainer) {
-    dependsOn removeContainer
+    dependsOn removeImage
     targetImageId buildImage.getImageId()
     containerName = "$dockerContainerName"
     hostConfig.portBindings = ['8080:8080', '27017:27017']
@@ -74,6 +74,7 @@ tasks.register('removeContainer', DockerRemoveContainer) {
 }
 
 tasks.register('removeImage', DockerRemoveImage) {
+    dependsOn removeContainer
     targetImageId { dockerImageName }
     onError {
         System.out.println("No previous image to delete")
