@@ -12,7 +12,8 @@ group = 'com.ohusiev'
 version = '0.0.5-RELEASE'
 sourceCompatibility = '17'
 
-def ourContainerName = "bta"
+def dockerContainerName = "bta"
+def dockerImageName = "skain/budget-tracker-app"
 
 configurations {
     compileOnly {
@@ -49,32 +50,38 @@ tasks.register('syncJar', Copy) {
 }
 
 tasks.register('buildImage', DockerBuildImage) {
-    dependsOn createDockerFile, syncJar, removeContainer
+    dependsOn createDockerFile, syncJar, removeImage
     images = ["skain/budget-tracker-app"]
 }
 
 tasks.register('createContainer', DockerCreateContainer) {
-    dependsOn buildImage, removeContainer
+    dependsOn removeContainer
     targetImageId buildImage.getImageId()
-    containerName = "$ourContainerName"
+    containerName = "$dockerContainerName"
     hostConfig.portBindings = ['8080:8080', '27017:27017']
     hostConfig.extraHosts=['mongoservice:172.17.0.1']
 }
 
 tasks.register('stopContainer', DockerStopContainer) {
-    targetContainerId("$ourContainerName")
+    targetContainerId("$dockerContainerName")
     onError { exception -> handleError(exception) }
 }
 
 tasks.register('removeContainer', DockerRemoveContainer) {
     dependsOn stopContainer
-    targetContainerId("$ourContainerName")
+    targetContainerId("$dockerContainerName")
     onError { exception -> handleError(exception) }
 }
 
+tasks.register('removeImage', DockerRemoveImage) {
+    targetImageId { dockerImageName }
+    onError {
+        System.out.println("No previous image to delete")
+    }
+}
 tasks.register('startContainer', DockerStartContainer) {
     dependsOn createContainer
-    targetContainerId("$ourContainerName")
+    targetContainerId("$dockerContainerName")
 }
 
 private static void handleError(Throwable exc) {
