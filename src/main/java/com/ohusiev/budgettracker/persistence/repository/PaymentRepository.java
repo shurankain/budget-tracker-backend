@@ -53,8 +53,7 @@ public interface PaymentRepository extends ReactiveCrudRepository<Payment, Strin
                     creationDate: {$gte: ?0, $lt: ?1}
                 }
             }
-            """,
-            """
+            """, """
             {
                 $group: {
                     _id: "$category",
