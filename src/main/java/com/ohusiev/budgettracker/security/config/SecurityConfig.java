@@ -17,8 +17,6 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @EnableWebFluxSecurity
 public class SecurityConfig implements WebFluxConfigurer {
 
-    public static final String[] MATCHERS = {"/payments"};
-
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.withDefaultPasswordEncoder()
@@ -39,6 +37,8 @@ public class SecurityConfig implements WebFluxConfigurer {
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
+                .cors()
+                .and()
                 .authorizeExchange(exchanges -> exchanges
                                 .anyExchange().authenticated()
                                   )
