@@ -31,6 +31,7 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(corsSpec -> corsSpec.configurationSource(createCorsConfigSource()))
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec.anyExchange().authenticated())
                 .httpBasic(Customizer.withDefaults())
