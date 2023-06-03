@@ -38,8 +38,8 @@ public class SecurityConfig implements WebFluxConfigurer {
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .cors()
-                .and()
+                .cors(ServerHttpSecurity.CorsSpec::disable)
+                //.and()
                 .authorizeExchange(exchanges -> exchanges
                                 .anyExchange().authenticated()
                                   )
