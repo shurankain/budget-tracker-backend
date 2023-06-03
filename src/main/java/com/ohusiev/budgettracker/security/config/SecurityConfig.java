@@ -1,50 +1,42 @@
 package com.ohusiev.budgettracker.security.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.reactive.config.CorsRegistry;
-import org.springframework.web.reactive.config.WebFluxConfigurer;
+
+import com.ohusiev.budgettracker.persistence.repository.UserRepository;
 
 @Configuration
 @EnableWebFluxSecurity
-public class SecurityConfig implements WebFluxConfigurer {
+public class SecurityConfig {
 
-    @Bean
-    public MapReactiveUserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("shuran")
-                .password("1001")
-                .roles("USER")
-                .build();
-        return new MapReactiveUserDetailsService(user);
-    }
+    private final UserRepository userRepository;
 
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*")
-                .allowedMethods("*");
+    @Autowired
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Bean
-    SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .cors(ServerHttpSecurity.CorsSpec::disable)
-                //.and()
-                .authorizeExchange(exchanges -> exchanges
-                                .anyExchange().authenticated()
-                                  )
-                .httpBasic(withDefaults())
-                .formLogin(withDefaults());
+                .authorizeExchange()
+                .anyExchange()
+                .authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .formLogin();
         return http.build();
     }
+
+    @Bean
+    public ReactiveUserDetailsService userDetailsService() {
+        return userRepository::findByUsername;
+    }
+
 }
