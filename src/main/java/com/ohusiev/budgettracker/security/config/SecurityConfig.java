@@ -42,8 +42,9 @@ public class SecurityConfig {
     public CorsConfigurationSource createCorsConfigSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000/", "http://10.11.211.48:3000/")); // key
-        config.setAllowedHeaders(List.of("*")); // value
+        // works from ANY machine where web is started locally and form machines with specific IP
+        config.setAllowedOrigins(List.of("http://localhost:3000/", "http://10.11.211.48:3000/")); // where to add this header
+        config.setAllowedHeaders(List.of("*")); // value of header added
         config.addAllowedMethod("GET");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
