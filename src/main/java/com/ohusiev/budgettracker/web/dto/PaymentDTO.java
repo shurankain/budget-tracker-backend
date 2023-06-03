@@ -1,6 +1,6 @@
 package com.ohusiev.budgettracker.web.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public record PaymentDTO(Double amount, String description, LocalDate creationDate, String category) {
+public record PaymentDTO(Double amount, String description, LocalDateTime creationDate, String category) {
 }
