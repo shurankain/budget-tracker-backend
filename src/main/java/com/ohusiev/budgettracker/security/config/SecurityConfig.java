@@ -49,7 +49,7 @@ public class SecurityConfig {
         config.addAllowedMethod("POST");
         config.addAllowedMethod("DELETE");
 
-        source.registerCorsConfiguration("/categories/data/between", config);
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 
