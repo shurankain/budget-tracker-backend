@@ -1,5 +1,6 @@
 package com.ohusiev.budgettracker.service;
 
+import com.ohusiev.budgettracker.persistence.model.Category;
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.persistence.repository.PaymentRepository;
 import com.ohusiev.budgettracker.service.utils.DateUtils;
@@ -51,6 +52,6 @@ public class PaymentService {
                 paymentDTO.amount(),
                 paymentDTO.description(),
                 paymentDTO.creationDate(),
-                paymentDTO.category());
+                Category.valueOf(paymentDTO.category()));
     }
 }
