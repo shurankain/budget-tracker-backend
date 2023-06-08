@@ -57,5 +57,4 @@ public class SecurityConfig {
     public ReactiveUserDetailsService userDetailsService() {
         return userRepository::findByUsername;
     }
-
 }
