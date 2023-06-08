@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-@Document
+@Document(collection = "users")
 @ToString
 public class User implements UserDetails {
 

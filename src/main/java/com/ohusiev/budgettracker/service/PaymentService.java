@@ -1,18 +1,14 @@
 package com.ohusiev.budgettracker.service;
 
-import java.time.LocalDate;
-
-import org.springframework.stereotype.Component;
-
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.persistence.repository.PaymentRepository;
-import com.ohusiev.budgettracker.web.dto.CategoryDTO;
+import com.ohusiev.budgettracker.service.utils.DateUtils;
 import com.ohusiev.budgettracker.web.dto.PaymentDTO;
-
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component
+@Service
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -45,16 +41,9 @@ public class PaymentService {
         return this.paymentRepository.getAllByCategory(category);
     }
 
-    public Flux<Payment> getByCategoryNameAndLimitedByDates(String category, LocalDate startDate, LocalDate endDate) {
-        return this.paymentRepository.getByCategoryNameAndLimitedByDates(category, startDate, endDate);
-    }
-
-    public Flux<CategoryDTO> getAllCategoriesData() {
-        return this.paymentRepository.countTotalAmountByCategory();
-    }
-
-    public Flux<CategoryDTO> getTotalAmountByCategoryForPeriod(LocalDate startDate, LocalDate endDate) {
-        return this.paymentRepository.getTotalAmountByCategoryForPeriod(startDate, endDate);
+    public Flux<Payment> getByCategoryNameAndLimitedByDates(String category, String from, String to) {
+        return this.paymentRepository.getByCategoryNameAndLimitedByDates(category,
+                DateUtils.formatToDate(from), DateUtils.formatToDate(to));
     }
 
     private Payment convertToPayment(PaymentDTO paymentDTO) {
