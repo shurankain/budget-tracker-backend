@@ -3,7 +3,7 @@ package com.ohusiev.budgettracker.persistence.model;
 public enum Category {
     /**
      * Groceries (tag food, fruits, bakery)
-     * Cafe and Restaurants (McDonalds, pizza, sushi)
+     * Cafe and Restaurants (McDonald's, pizza, sushi)
      * Home (household, furniture, decoration)
      * Goods and Clothes (bags, boots, coat)
      * Sport (sport-club, app, training)

@@ -22,7 +22,6 @@ public class User implements UserDetails {
     @Id
     private String username;
     private String password;
-
     private boolean active = true;
     private Set<GrantedAuthority> roles = new HashSet<>();
 
