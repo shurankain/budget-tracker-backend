@@ -52,6 +52,7 @@ public class PaymentService {
                 paymentDTO.amount(),
                 paymentDTO.description(),
                 paymentDTO.creationDate(),
-                Category.valueOf(paymentDTO.category()));
+                Category.valueOf(paymentDTO.category()),
+                paymentDTO.tags());
     }
 }
