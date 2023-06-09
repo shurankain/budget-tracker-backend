@@ -19,7 +19,7 @@ public enum Category {
      * Roman
      * Rent
      * Other necessary
-     * Other non necessary
+     * Other non-necessary
      */
     CAFE_AND_RESTAURANTS,
     CHARITY,
