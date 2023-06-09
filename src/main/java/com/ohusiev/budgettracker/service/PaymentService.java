@@ -38,11 +38,11 @@ public class PaymentService {
         return this.paymentRepository.getAllByCategoryIsNull();
     }
 
-    public Flux<Payment> getAllByCategoryName(String category) {
+    public Flux<Payment> getAllByCategoryName(Category category) {
         return this.paymentRepository.getAllByCategory(category);
     }
 
-    public Flux<Payment> getByCategoryNameAndLimitedByDates(String category, String from, String to) {
+    public Flux<Payment> getByCategoryNameAndLimitedByDates(Category category, String from, String to) {
         return this.paymentRepository.getByCategoryNameAndLimitedByDates(category,
                 DateUtils.formatToDate(from), DateUtils.formatToDate(to));
     }
@@ -52,7 +52,7 @@ public class PaymentService {
                 paymentDTO.amount(),
                 paymentDTO.description(),
                 paymentDTO.creationDate(),
-                Category.valueOf(paymentDTO.category()),
+                paymentDTO.category(),
                 paymentDTO.tags());
     }
 }

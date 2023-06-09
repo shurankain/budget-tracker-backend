@@ -1,5 +1,6 @@
 package com.ohusiev.budgettracker.web;
 
+import com.ohusiev.budgettracker.persistence.model.Category;
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.service.PaymentService;
 import com.ohusiev.budgettracker.web.dto.PaymentDTO;
@@ -24,7 +25,7 @@ public class PaymentRestController {
     }
 
     @GetMapping("/payments/category")
-    Flux<Payment> getAllByCategoryName(@RequestParam("category") String category) {
+    Flux<Payment> getAllByCategoryName(@RequestParam("category") Category category) {
         return this.paymentService.getAllByCategoryName(category);
     }
 
@@ -49,7 +50,7 @@ public class PaymentRestController {
     }
 
     @PostMapping("/payments/between")
-    Flux<Payment> getByCategoryNameAndLimitedByDates(@RequestParam String category,
+    Flux<Payment> getByCategoryNameAndLimitedByDates(@RequestParam Category category,
                                                      @RequestParam String from, @RequestParam String to) {
         return this.paymentService.getByCategoryNameAndLimitedByDates(category,
                 from, to);
