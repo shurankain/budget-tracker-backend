@@ -21,7 +21,7 @@ public class CategoryController {
 
     @GetMapping("/categories")
     Flux<CategoryDTO> getDataPerCategory() {
-        return this.categoryService.getAllCategoriesData();
+        return this.categoryService.getAllCategories();
     }
 
     @PostMapping("/categories/between")

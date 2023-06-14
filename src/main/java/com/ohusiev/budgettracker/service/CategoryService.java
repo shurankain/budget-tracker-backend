@@ -15,7 +15,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Flux<CategoryDTO> getAllCategoriesData() {
+    public Flux<CategoryDTO> getAllCategories() {
         return this.categoryRepository.countTotalAmountByCategory();
     }
 
