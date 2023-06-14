@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 public interface CategoryRepository  extends ReactiveCrudRepository<Payment, String> {
 
-
     @Aggregation(pipeline = {"""
             {
                 $group: {
