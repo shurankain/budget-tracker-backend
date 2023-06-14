@@ -13,9 +13,11 @@ import reactor.core.publisher.Mono;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final TagsService tagsService;
 
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, TagsService tagsService) {
         this.paymentRepository = paymentRepository;
+        this.tagsService = tagsService;
     }
 
     public Flux<Payment> findAll() {
@@ -27,11 +29,15 @@ public class PaymentService {
     }
 
     public Mono<Payment> save(PaymentDTO paymentDTO) {
-        return this.paymentRepository.save(convertToPayment(paymentDTO));
+        return this.paymentRepository
+                .save(convertToPayment(paymentDTO))
+                .doOnSuccess(x -> tagsService.updateTagsCache());
     }
 
     public Mono<Void> deleteById(String id) {
-        return this.paymentRepository.deleteById(id);
+        return this.paymentRepository
+                .deleteById(id)
+                .doOnSuccess(x -> tagsService.updateTagsCache());
     }
 
     public Flux<Payment> getUnassignedPayments() {
