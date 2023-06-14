@@ -1,11 +1,12 @@
 package com.ohusiev.budgettracker.service;
 
-import com.ohusiev.budgettracker.persistence.model.Category;
+import org.springframework.stereotype.Service;
+
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.persistence.repository.PaymentRepository;
 import com.ohusiev.budgettracker.service.utils.DateUtils;
 import com.ohusiev.budgettracker.web.dto.PaymentDTO;
-import org.springframework.stereotype.Service;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -13,10 +14,14 @@ import reactor.core.publisher.Mono;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final CategoryService categoryService;
     private final TagsService tagsService;
 
-    public PaymentService(PaymentRepository paymentRepository, TagsService tagsService) {
+    public PaymentService(PaymentRepository paymentRepository,
+                          CategoryService categoryService,
+                          TagsService tagsService) {
         this.paymentRepository = paymentRepository;
+        this.categoryService = categoryService;
         this.tagsService = tagsService;
     }
 
@@ -31,24 +36,30 @@ public class PaymentService {
     public Mono<Payment> save(PaymentDTO paymentDTO) {
         return this.paymentRepository
                 .save(convertToPayment(paymentDTO))
-                .doOnSuccess(x -> tagsService.updateTagsCache());
+                .doOnSuccess(x -> {
+                    categoryService.updateCache();
+                    tagsService.updateCache();
+                });
     }
 
     public Mono<Void> deleteById(String id) {
         return this.paymentRepository
                 .deleteById(id)
-                .doOnSuccess(x -> tagsService.updateTagsCache());
+                .doOnSuccess(x -> {
+                    categoryService.updateCache();
+                    tagsService.updateCache();
+                });
     }
 
     public Flux<Payment> getUnassignedPayments() {
         return this.paymentRepository.getAllByCategoryIsNull();
     }
 
-    public Flux<Payment> getAllByCategoryName(Category category) {
+    public Flux<Payment> getAllByCategoryName(String category) {
         return this.paymentRepository.getAllByCategory(category);
     }
 
-    public Flux<Payment> getByCategoryNameAndLimitedByDates(Category category, String from, String to) {
+    public Flux<Payment> getByCategoryNameAndLimitedByDates(String category, String from, String to) {
         return this.paymentRepository.getByCategoryNameAndLimitedByDates(category,
                 DateUtils.formatToDate(from), DateUtils.formatToDate(to));
     }

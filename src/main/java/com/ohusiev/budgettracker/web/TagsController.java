@@ -27,7 +27,7 @@ public class TagsController {
 
     @GetMapping("/update")
     Mono<Void> update() {
-        this.tagsService.updateTagsCache();
+        this.tagsService.updateCache();
         return Mono.empty();
     }
 }

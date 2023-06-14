@@ -17,10 +17,10 @@ public class TagsService {
 
     public TagsService(TagsRepository tagsRepository) {
         this.tagsRepository = tagsRepository;
-        updateTagsCache(); //on bean creation
+        updateCache(); //on bean creation
     }
 
-    public void updateTagsCache() {
+    public void updateCache() {
         tagsCache = new HashSet<>();
         this.tagsRepository.getAllTags().collect(Collectors.toSet()).subscribe(tagsCache::addAll);
     }

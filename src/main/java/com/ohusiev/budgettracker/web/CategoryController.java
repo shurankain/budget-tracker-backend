@@ -1,12 +1,16 @@
 package com.ohusiev.budgettracker.web;
 
-import com.ohusiev.budgettracker.service.CategoryService;
-import com.ohusiev.budgettracker.web.dto.CategoryDTO;
+import java.util.Set;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ohusiev.budgettracker.service.CategoryService;
+import com.ohusiev.budgettracker.web.dto.CategoryDTO;
+
 import reactor.core.publisher.Flux;
 
 @Controller
@@ -20,8 +24,13 @@ public class CategoryController {
     }
 
     @GetMapping("/categories")
-    Flux<CategoryDTO> getDataPerCategory() {
+    Set<String> getCategories() {
         return this.categoryService.getAllCategories();
+    }
+
+    @GetMapping("/categories/sum")
+    Flux<CategoryDTO> getSumByCategory() {
+        return this.categoryService.getSumByCategory();
     }
 
     @PostMapping("/categories/between")

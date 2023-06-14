@@ -12,6 +12,20 @@ public interface CategoryRepository  extends ReactiveCrudRepository<Payment, Str
 
     @Aggregation(pipeline = {"""
             {
+                $unwind : "$category"
+            }
+            """, """
+                {
+                    $project: {
+                        _id: 0,
+                        category: 1
+                    }
+                }
+            """})
+    Flux<String> getAllCategories();
+
+    @Aggregation(pipeline = {"""
+            {
                 $group: {
                     _id: "$category",
                     name: {"$first": "$category"},
