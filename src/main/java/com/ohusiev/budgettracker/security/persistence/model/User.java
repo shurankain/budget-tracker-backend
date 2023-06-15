@@ -1,4 +1,4 @@
-package com.ohusiev.budgettracker.persistence.model;
+package com.ohusiev.budgettracker.security.persistence.model;
 
 import java.util.Collection;
 import java.util.HashSet;

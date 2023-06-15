@@ -14,7 +14,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
-import com.ohusiev.budgettracker.persistence.repository.UserRepository;
+import com.ohusiev.budgettracker.security.persistence.repository.UserRepository;
 
 @Configuration
 @EnableWebFluxSecurity
