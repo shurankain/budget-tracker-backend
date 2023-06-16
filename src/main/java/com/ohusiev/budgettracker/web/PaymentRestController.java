@@ -46,6 +46,11 @@ public class PaymentRestController {
         return this.paymentService.save(payment);
     }
 
+    @PostMapping("/payment/edit/{id}")
+    public Mono<Payment> add(@PathVariable String id, @RequestBody PaymentDTO payment) {
+        return this.paymentService.edit(id, payment);
+    }
+
     @DeleteMapping("/payments/{id}")
     Mono<Void> deleteById(@PathVariable String id) {
         return this.paymentService.deleteById(id);

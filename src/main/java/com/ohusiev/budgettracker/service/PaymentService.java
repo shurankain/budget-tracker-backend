@@ -42,6 +42,15 @@ public class PaymentService {
                 });
     }
 
+    public Mono<Payment> edit(String id, PaymentDTO paymentDTO) {
+        return this.paymentRepository
+                .save(convertToPaymentWithId(id, paymentDTO))
+                .doOnSuccess(x -> {
+                    categoryService.updateCache();
+                    tagsService.updateCache();
+                });
+    }
+
     public Mono<Void> deleteById(String id) {
         return this.paymentRepository
                 .deleteById(id)
@@ -66,6 +75,15 @@ public class PaymentService {
 
     private Payment convertToPayment(PaymentDTO paymentDTO) {
         return new Payment(null,
+                paymentDTO.amount(),
+                paymentDTO.description(),
+                paymentDTO.creationDate(),
+                paymentDTO.category(),
+                paymentDTO.tags());
+    }
+
+    private Payment convertToPaymentWithId(String id, PaymentDTO paymentDTO) {
+        return new Payment(id,
                 paymentDTO.amount(),
                 paymentDTO.description(),
                 paymentDTO.creationDate(),
