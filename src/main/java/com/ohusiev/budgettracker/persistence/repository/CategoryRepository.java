@@ -9,6 +9,21 @@ import reactor.core.publisher.Flux;
 import java.time.LocalDate;
 
 public interface CategoryRepository  extends ReactiveCrudRepository<Payment, String> {
+
+    @Aggregation(pipeline = {"""
+            {
+                $unwind : "$category"
+            }
+            """, """
+                {
+                    $project: {
+                        _id: 0,
+                        category: 1
+                    }
+                }
+            """})
+    Flux<String> getAllCategories();
+
     @Aggregation(pipeline = {"""
             {
                 $group: {

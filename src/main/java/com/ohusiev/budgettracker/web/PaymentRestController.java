@@ -1,11 +1,18 @@
 package com.ohusiev.budgettracker.web;
 
-import com.ohusiev.budgettracker.persistence.model.Category;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ohusiev.budgettracker.persistence.model.Payment;
 import com.ohusiev.budgettracker.service.PaymentService;
 import com.ohusiev.budgettracker.web.dto.PaymentDTO;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,7 +32,7 @@ public class PaymentRestController {
     }
 
     @GetMapping("/payments/category")
-    Flux<Payment> getAllByCategoryName(@RequestParam("category") Category category) {
+    Flux<Payment> getAllByCategoryName(@RequestParam("category") String category) {
         return this.paymentService.getAllByCategoryName(category);
     }
 
@@ -39,6 +46,11 @@ public class PaymentRestController {
         return this.paymentService.save(payment);
     }
 
+    @PostMapping("/payment/edit/{id}")
+    public Mono<Payment> add(@PathVariable String id, @RequestBody PaymentDTO payment) {
+        return this.paymentService.edit(id, payment);
+    }
+
     @DeleteMapping("/payments/{id}")
     Mono<Void> deleteById(@PathVariable String id) {
         return this.paymentService.deleteById(id);
@@ -50,7 +62,7 @@ public class PaymentRestController {
     }
 
     @PostMapping("/payments/between")
-    Flux<Payment> getByCategoryNameAndLimitedByDates(@RequestParam Category category,
+    Flux<Payment> getByCategoryNameAndLimitedByDates(@RequestParam String category,
                                                      @RequestParam String from, @RequestParam String to) {
         return this.paymentService.getByCategoryNameAndLimitedByDates(category,
                 from, to);

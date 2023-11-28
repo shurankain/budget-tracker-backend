@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "payments")
 public record Payment(@Id String id, Double amount, String description, LocalDateTime creationDate,
-                      Category category, List<String> tags) {
+                      String category, List<String> tags) {
 }
